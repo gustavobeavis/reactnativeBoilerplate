@@ -7,7 +7,7 @@ const CustomizeButtom = (props) => (
     style={props.styleButton}
     onPress={() => props.onPressButton()}
   >
-    <Text style={{ color: 'white', fontSize: 18 }}>{props.caption}</Text>
+    <Text style={{ color: 'white', fontSize: 24 }}>{props.caption}</Text>
   </TouchableHighlight>
 );
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TaskRow from './taskRow';
 import CustomizeButtom from './CustomizeButtom';
 
-const styles = StyleSheet.flatten({
+const styles = {
   container: {
     paddingTop: 40,
     backgroundColor: '#F7F7F7',
@@ -25,7 +25,7 @@ const styles = StyleSheet.flatten({
     fontSize: 20,
     fontWeight: '600',
   },
-});
+};
 
 export default class TaskList extends React.Component {
   constructor(props, context) {
@@ -35,9 +35,16 @@ export default class TaskList extends React.Component {
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
 
+    const { todos } = this.props.todosContainer;
     this.state = {
-      dataSource: ds.cloneWithRows(this.props.todos),
+      dataSource: ds.cloneWithRows(todos),
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { todos } = nextProps.todosContainer;
+    const dataSource = this.state.dataSource.cloneWithRows(todos);
+    this.setState({ dataSource });
   }
 
   renderRow(todo) {
@@ -48,7 +55,7 @@ export default class TaskList extends React.Component {
     return (
       <View style={styles.container}>
         <ListView
-          key={this.props.todos}
+          key={this.props.todosContainer.todos}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
         />
@@ -56,7 +63,11 @@ export default class TaskList extends React.Component {
         <CustomizeButtom
           caption="Add"
           styleButton={styles.button}
-          onPressButton={() => this.props.onAddStarted()}
+          onPressButton={() =>
+            this.props.navigation.navigate('Task', {
+              ...this.props,
+            })
+          }
         />
       </View>
     );
@@ -64,6 +75,6 @@ export default class TaskList extends React.Component {
 }
 
 TaskList.propTypes = {
-  todos: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onAddStarted: PropTypes.func.isRequired,
+  todosContainer: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
 };
