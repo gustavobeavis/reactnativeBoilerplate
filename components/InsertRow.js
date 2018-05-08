@@ -55,7 +55,7 @@ class InsertRow extends React.Component {
     this.state = {
       task: '',
     };
-  }
+  };
 
   static navigationOptions = {
     title: 'Add task',
