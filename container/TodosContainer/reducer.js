@@ -1,5 +1,5 @@
-import { fromJS, Map } from 'immutable';
-import { INSERT_TODO } from './constants';
+import { fromJS } from 'immutable';
+import { INSERT_TODO, REMOVE_TODO } from './constants';
 
 const initialState = fromJS({
   todos: [
@@ -12,8 +12,12 @@ const initialState = fromJS({
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case INSERT_TODO: {
-      const lista = state.get('todos');
-      return state.set('todos', [...lista, Map({ task: action.todo.task })]);
+      return state.updateIn(['todos'], (array) => array.push(action.todo));
+    }
+    case REMOVE_TODO: {
+      let newList = state.get('todos').toJS();
+      newList = newList.filter((x) => x.task !== action.todo.task);
+      return state.set('todos', fromJS(newList));
     }
 
     default:

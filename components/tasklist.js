@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, ListView } from 'react-native';
+import { View, ListView } from 'react-native';
 import PropTypes from 'prop-types';
-import TaskRow from './taskRow';
+import TaskRow from '../components/taskRow/component';
 import CustomizeButtom from './CustomizeButtom';
 
 const styles = {
@@ -48,7 +48,9 @@ export default class TaskList extends React.Component {
   }
 
   renderRow(todo) {
-    return <TaskRow todo={todo} />;
+    return (
+      <TaskRow todo={todo} removeTodo={() => this.props.removeTodo(todo)} />
+    );
   }
 
   render() {
@@ -57,7 +59,7 @@ export default class TaskList extends React.Component {
         <ListView
           key={this.props.todosContainer.todos}
           dataSource={this.state.dataSource}
-          renderRow={this.renderRow}
+          renderRow={(rowData) => this.renderRow(rowData)}
         />
 
         <CustomizeButtom
@@ -77,4 +79,5 @@ export default class TaskList extends React.Component {
 TaskList.propTypes = {
   todosContainer: PropTypes.object.isRequired,
   navigation: PropTypes.object.isRequired,
+  removeTodo: PropTypes.func.isRequired,
 };

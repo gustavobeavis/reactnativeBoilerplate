@@ -2,14 +2,17 @@ import React from 'react';
 import { Text, StyleSheet, View, TouchableHighlight } from 'react-native';
 import PropTypes from 'prop-types';
 
-const TaskRow = ({ todo }) => (
-  <View style={styles.container}>
-    <Text style={styles.label}>{todo.task}</Text>
-    <TouchableHighlight style={styles.doneButton}>
-      <Text>Done</Text>
-    </TouchableHighlight>
-  </View>
-);
+// const TaskRow = ({ todo, removeTodo }) => (
+//   <View style={styles.container}>
+//     <Text style={styles.label}>{todo.task}</Text>
+//     <TouchableHighlight
+//       style={styles.doneButton}
+//       onPress={() => removeTodo(todo)}
+//     >
+//       <Text>Done</Text>
+//     </TouchableHighlight>
+//   </View>
+// );
 
 const styles = StyleSheet.create({
   container: {
@@ -43,6 +46,7 @@ TaskRow.propTypes = {
   todo: PropTypes.shape({
     task: PropTypes.string.isRequired,
   }).isRequired,
+  removeTodo: PropTypes.func.isRequired,
 };
 
 export default TaskRow;

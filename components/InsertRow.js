@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, Vibration, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import CustomizeButtom from './CustomizeButtom';
 
@@ -50,13 +50,6 @@ const styles = {
 };
 
 class InsertRow extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      task: '',
-    };
-  }
-
   static navigationOptions = {
     title: 'Add task',
     headerStyle: {
@@ -66,6 +59,22 @@ class InsertRow extends React.Component {
     headerTitleStyle: {
       fontWeight: 'bold',
     },
+  };
+
+  constructor() {
+    super();
+    this.state = {
+      task: '',
+    };
+  }
+  insert = (todo, insertTodo) => {
+    if (todo.task === '') {
+      Alert.alert('Campo vazio');
+      Vibration.vibrate(1);
+      return;
+    }
+    insertTodo(todo);
+    this.props.navigation.goBack();
   };
 
   render() {
@@ -82,8 +91,7 @@ class InsertRow extends React.Component {
           caption="Add"
           styleButton={styles.buttonAdd}
           onPressButton={() => {
-            insertTodo({ task: this.state.task });
-            this.props.navigation.goBack();
+            this.insert({ task: this.state.task }, insertTodo);
           }}
         />
 
